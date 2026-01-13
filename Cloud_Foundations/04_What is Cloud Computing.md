@@ -395,4 +395,4 @@ Hybrid  → Combination
   - Public Cloud
   - Private Cloud
   - Hybrid Cloud
-- Cloud computing provides scalability, flexibility, reliability, and cost savings.
+- Cloud computing provides scalability, flexibility, reliability, and cost savings.   
