@@ -1,147 +1,117 @@
-Linux Command Line Lab Walkthrough
+# Linux Command Line Lab Walkthrough
 
-Aim:
-To connect to an Amazon Linux EC2 instance using SSH and perform basic Linux command-line operations, including viewing system information and using command history features.
+## Aim
 
-Requirements:
-• AWS Academy Lab Environment
-• AWS Management Console Access
-• Amazon Linux EC2 Instance
-• SSH Utility (PuTTY for Windows or Terminal for macOS/Linux)
+In this lab, I connected to an Amazon Linux EC2 instance using SSH and practiced basic Linux command-line operations, including viewing system information and using command history.
 
-Procedure:
+## Requirements
 
-Task 1: Connect to the Amazon Linux EC2 Instance
+* AWS Academy Lab Environment
+* AWS Management Console Access
+* Amazon Linux EC2 Instance
+* SSH Utility such as PuTTY for Windows or Terminal for macOS/Linux
 
-1. Started the AWS Lab by clicking the "Start Lab" button.
-2. Waited until the lab status changed to "Ready".
-3. Opened the AWS Management Console.
-4. Retrieved the connection credentials from the Details section.
-5. Downloaded the SSH key:
+## Procedure
 
-   * labsuser.ppk for Windows users, or
-   * labsuser.pem for macOS/Linux users.
-6. Noted the Public IP address of the EC2 instance.
-7. Established an SSH connection to the EC2 instance.
+### Task 1: Connect to the Amazon Linux EC2 Instance
+
+I started the AWS lab, waited until the status changed to **Ready**, and opened the AWS Management Console.
+
+From the **Details** section, I retrieved the connection credentials, downloaded the SSH key file, and noted the public IP address of the EC2 instance.
+
+I then connected to the instance using SSH.
 
 For macOS/Linux:
 
-Command:
+```bash
 ssh -i labsuser.pem ec2-user@<Public-IP>
+```
 
-For Windows:
-Configured PuTTY with the downloaded PPK file and connected to the instance.
+On Windows, I configured PuTTY with the downloaded PPK file and connected to the instance.
 
-Observation:
-Successfully logged in to the Amazon Linux EC2 instance as ec2-user.
+Once I connected successfully, I was logged in as `ec2-user`.
 
-Task 2: Execute Basic Linux Commands
+### Task 2: Execute Basic Linux Commands
 
-1. Displayed the current user.
+I used a series of Linux commands to check system details.
 
-Command:
+```bash
 whoami
+```
 
-Output:
+This confirmed the current user:
+
+```text
 ec2-user
+```
 
-2. Displayed the short hostname.
-
-Command:
+```bash
 hostname -s
+```
 
-Sample Output:
-ip-10-x-x-x
+This returned the short hostname.
 
-3. Checked system uptime.
-
-Command:
+```bash
 uptime -p
+```
 
-Sample Output:
-up 2 hours, 30 minutes
+This showed how long the system had been running.
 
-4. Viewed information about logged-in users.
-
-Command:
+```bash
 who -H -a
+```
 
-Observation:
-Displayed user name, terminal line, login time, idle time, process ID, comments, and exit information.
+This displayed information about logged-in users.
 
-5. Displayed the current date and time for New York.
+I also checked the current time in different time zones:
 
-Command:
+```bash
 TZ=America/New_York date
-
-6. Displayed the current date and time for Los Angeles.
-
-Command:
 TZ=America/Los_Angeles date
+```
 
-Observation:
-Verified that Linux can display time using different time zones.
+Then I viewed calendar formats:
 
-7. Displayed the Julian calendar.
-
-Command:
+```bash
 cal -j
-
-Observation:
-Observed the Julian day numbering system.
-
-8. Displayed a Sunday-first calendar.
-
-Command:
 cal -s
-
-9. Displayed a Monday-first calendar.
-
-Command:
 cal -m
+```
 
-10. Viewed user and group information.
+Finally, I checked user and group details:
 
-Command:
+```bash
 id ec2-user
+```
 
-Observation:
-Displayed the user ID, group ID, and group memberships.
+That showed the user ID, group ID, and group memberships.
 
-Task 3: Use Command History and Search
+### Task 3: Use Command History and Search
 
-1. Displayed the shell command history.
+I viewed my shell command history with:
 
-Command:
+```bash
 history
+```
 
-Observation:
-Verified that previously executed commands were stored.
+I also used reverse search with `CTRL + R` and typed `TZ` to find earlier timezone commands.
 
-2. Performed reverse history search.
+After that, I ran:
 
-Procedure:
-• Pressed CTRL + R.
-• Typed TZ to search previously used commands.
-
-Observation:
-Retrieved previously executed timezone commands from history.
-
-3. Displayed the current date.
-
-Command:
+```bash
 date
+```
 
-4. Re-executed the previous command.
+Then I repeated the previous command with:
 
-Command:
+```bash
 !!
+```
 
-Observation:
-The last executed command ran again successfully.
+## Result
 
-Result:
-Successfully connected to an Amazon Linux EC2 instance and executed various Linux commands to obtain system information. Also learned how to use Bash history, reverse search, and command reuse features to improve command-line efficiency.
+I successfully connected to the Amazon Linux EC2 instance and used several Linux commands to gather system information. I also practiced Bash history, reverse search, and command reuse to work more efficiently at the command line.
 
-Conclusion:
-This lab provided hands-on experience with SSH connectivity, Linux system information commands, calendar utilities, user identification commands, and Bash history mechanisms. These skills are essential for effective Linux system administration and troubleshooting.
+## Conclusion
+
+This lab gave me hands-on experience with SSH connectivity, Linux system information commands, calendar utilities, user identification commands, and Bash history features. These are important skills for basic Linux administration and troubleshooting.
