@@ -1,191 +1,147 @@
-Managing Users and Groups Lab Walkthrough
+# Managing Users and Groups Lab Walkthrough
 
-Aim:
-To create users and groups in Linux, assign users to appropriate groups, verify group memberships, and understand sudo privileges and user switching.
+## Aim
 
-Requirements:
-• AWS Academy Lab Environment
-• Amazon Linux EC2 Instance
-• SSH Access (PuTTY or Terminal)
+In this lab, I created users and groups in Linux, assigned users to the correct groups, verified group memberships, and reviewed sudo access and user switching.
 
-Procedure:w
+## Requirements
 
-Task 1: Connect to the EC2 Instance
+* AWS Academy Lab Environment
+* Amazon Linux EC2 Instance
+* SSH Access such as PuTTY or Terminal
 
-1. Started the lab and waited until the lab status became "Ready".
-2. Opened the AWS Management Console.
-3. Downloaded the SSH key file (PPK or PEM).
-4. Noted the Public IP address of the EC2 instance.
-5. Connected to the EC2 instance using SSH.
+## Procedure
+
+### Task 1: Connect to the EC2 Instance
+
+I started the lab, waited for the status to become **Ready**, opened the AWS Management Console, downloaded the SSH key file, noted the public IP address, and connected to the EC2 instance using SSH.
 
 For macOS/Linux:
 
-Command:
+```bash
 ssh -i labsuser.pem ec2-user@<Public-IP>
+```
 
-Observation:
-Successfully logged in as ec2-user.
+After connecting, I confirmed that I was logged in as `ec2-user`.
 
-Task 2: Create Users
+### Task 2: Create Users
 
-1. Verified the current working directory.
+I checked my current location with:
 
-Command:
+```bash
 pwd
+```
 
-Output:
+This showed:
+
+```text
 /home/ec2-user
+```
 
-2. Created user accounts using the useradd command.
+I then created the required user accounts with `useradd` and set passwords for them with `passwd`.
 
 Example:
+
+```bash
 sudo useradd arosalez
-
-3. Assigned passwords to the users.
-
-Example:
 sudo passwd arosalez
+```
 
-Password Used:
-P@ssword1234!
+I repeated that process for the following users:
 
-4. Repeated the process for all users listed below:
+* arosalez
+* eowusu
+* jdoe
+* ljuan
+* mmajor
+* mjackson
+* nwolf
+* psantos
+* smartinez
+* ssarkar
 
-User IDs:
-arosalez
-eowusu
-jdoe
-ljuan
-mmajor
-mjackson
-nwolf
-psantos
-smartinez
-ssarkar
+To verify the accounts, I listed the usernames from `/etc/passwd` and confirmed that the new users were present.
 
-5. Verified user creation.
+### Task 3: Create Groups
 
-Command:
-sudo cat /etc/passwd | cut -d: -f1
+I created the required groups with `groupadd`:
 
-Observation:
-All newly created users appeared in the list.
-
-Task 3: Create Groups
-
-1. Created the required groups using the groupadd command.
-
-Groups Created:
-Sales
-HR
-Finance
-Shipping
-Managers
-CEO
+* Sales
+* HR
+* Finance
+* Shipping
+* Managers
+* CEO
 
 Example:
+
+```bash
 sudo groupadd Sales
+```
 
-2. Verified group creation.
+I verified the group list in `/etc/group`, then added the users to their assigned groups.
 
-Command:
-cat /etc/group
+Group memberships:
 
-Observation:
-The newly created groups appeared in the output.
+* Sales: arosalez, nwolf
+* HR: ljuan, smartinez
+* Finance: mmajor, ssarkar
+* Shipping: eowusu, jdoe, psantos
+* Managers: arosalez, ljuan, mmajor
+* CEO: mjackson
 
-3. Added users to their respective groups.
+I also added `ec2-user` to all of the groups and then checked `/etc/group` again to confirm everything was set correctly.
 
-Group Memberships:
+### Task 4: Test User Login and Sudo Access
 
-Sales:
-arosalez
-nwolf
+I switched to another user with:
 
-HR:
-ljuan
-smartinez
-
-Finance:
-mmajor
-ssarkar
-
-Shipping:
-eowusu
-jdoe
-psantos
-
-Managers:
-arosalez
-ljuan
-mmajor
-
-CEO:
-mjackson
-
-4. Added ec2-user to all groups.
-
-5. Verified memberships.
-
-Command:
-sudo cat /etc/group
-
-Observation:
-All users appeared under the correct groups.
-
-Task 4: Test User Login and Sudo Access
-
-1. Switched to another user.
-
-Command:
+```bash
 su arosalez
+```
 
-Password:
-P@ssword1234!
+After entering the password, I checked the current directory:
 
-2. Verified the current directory.
-
-Command:
+```bash
 pwd
+```
 
-Output:
-/home/ec2-user
+The location remained in `/home/ec2-user`, which showed that the shell context did not move to a different home directory automatically.
 
-3. Attempted to create a file.
+I tried creating a file:
 
-Command:
+```bash
 touch myFile.txt
+```
 
-Observation:
-Permission denied error occurred because arosalez did not have write access to the ec2-user home directory.
+That failed with a permission error because `arosalez` did not have write access to the `ec2-user` home directory.
 
-4. Attempted to use sudo.
+I also tried using `sudo`:
 
-Command:
+```bash
 sudo touch myFile.txt
+```
 
-Observation:
-Received the message:
+This returned the message that `arosalez` was not in the sudoers file, which confirmed that the user did not have administrative privileges.
 
-"arosalez is not in the sudoers file."
+After that, I returned to `ec2-user` with:
 
-This confirmed that normal users cannot execute administrative commands using sudo.
-
-5. Returned to ec2-user.
-
-Command:
+```bash
 exit
+```
 
-6. Viewed the secure log file.
+Finally, I checked the secure log file:
 
-Command:
+```bash
 sudo cat /var/log/secure
+```
 
-Observation:
-The failed sudo attempt was recorded in the secure log file.
+That showed the failed sudo attempt in the system log.
 
-Result:
-Successfully created users and groups, assigned users to appropriate groups, verified memberships, switched between users, and observed Linux permission and sudo mechanisms.
+## Result
 
-Conclusion:
-This lab provided practical experience in Linux user and group administration. It demonstrated how to manage user accounts, organize users into groups, verify permissions, and understand the importance of sudo privileges and system security logging.
+I successfully created users and groups, assigned users to the correct groups, verified memberships, switched between users, and observed how Linux handles permissions and sudo access.
+
+## Conclusion
+
+This lab gave me practical experience with Linux user and group administration. I learned how to manage user accounts, organize users into groups, verify permissions, and understand the role of sudo privileges and security logging.
